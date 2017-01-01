@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{item.name}}</h1>
+<div class="row">
+    <div class="col-md-4 item-img"><img src="{{item.img_url}}" class="itm-img-scr"></div>
+    <div class="col-md-8">{{item.description}}</div>
+</div>   
+
+
+
+ creater--{{creator.email}}
+<a href="{{url_for('editItem', id = category.id, item_id = item.id )}}">edit</a>
+<a href="{{url_for('deleteItem', id = category.id, item_id = item.id )}}">Delete</a>
+{% endblock %}

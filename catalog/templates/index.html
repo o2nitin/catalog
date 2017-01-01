@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Items catlog</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Baloo+Thambi" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+    <body>
+      <div class="container-fluid">
+          <div class="row">
+              <div class="cat-header">
+              <div class="col-sm-6 sub-header"><a href="/"    > 
+          
+              <h2>
+                  <i class="fa fa-home" aria-hidden="true"></i>
+            Items Catlog</h2>
+            </a> </div>
+            <div class="col-sm-6 sub-header">
+                 {% if user %}
+                 <div class="sm-login pull-right"> Hi {{user}}
+                 <a href="/gdisconnect" class="login">logout</a> </div>
+                 {% else %}
+                  <a href="/login" class="login pull-right">login</a> 
+           {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+       
+           
+               <div class = 'flash'>
+		      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          
+        <ul class="flash-ul">
+        {% for message in messages %}
+            <li class="flash-li"> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+</div>
+</div>
+<div>
+<!--<div class="row"><div class="col-sm-4"></div></div>-->
+
+ <div class="row">
+     
+            <div class="col-sm-4 side-bar">
+                <a class="btn btn-default add-btn pull-right" href="\addnewcat"><i class="fa fa-plus" aria-hidden="true"></i>Add Categories</a>
+                <ul>
+                    <li class="col-sm-12 side-menu-line">Categories</li> 
+                {% for category in categories %}
+             <li class="col-sm-12 side-menu-line">
+             <a href="/catalog/{{category.id}}/items" class="cat">{{category.name}}</a></li>
+               
+              {% endfor %}
+               </ul>
+            </div>
+            <div class="col-sm-8 right-side">{% block content %}
+                <h1>Top Items</h1>
+               <hr/>
+
+	{% for i in items %}
+		
+<div class="col-sm-4"><div><div class="item-title">{{i.name}}</div>
+            <div class="item-img-hom"><a href="{{url_for('viewItem', id = i.category_id, item_id = i.id )}}">
+                <img src="{{i.img_url}}">	</a></div></div></div>
+
+
+		{% endfor %}
+  {% endblock %}</div>
+</div>
+
+            
+            
+
+
+
+
+
+<hr/>
+
+          </div>   
+
+      </div>     
+     
+
+    </body>
+</html>
