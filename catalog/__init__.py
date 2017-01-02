@@ -17,12 +17,20 @@ from flask import make_response
 import requests
 
 app = Flask(__name__)
+import os
+here = os.path.dirname(__file__)
+full_path_to_secrets_file = os.path.join(here, 'client_secrets.json')
+print full_path_to_secrets_file 
 
 CLIENT_ID = json.loads(
-    open('client_secrets.json', 'r').read())['web']['client_id']
+    open(full_path_to_secrets_file, 'r').read())['web']['client_id']
+
+print CLIENT_ID 
+# CLIENT_ID = '655602698938-2tou2jcsj7mumh1n20obgabap0moudkk.apps.googleusercontent.com'
+
 APPLICATION_NAME = "Catlog Application"
 
-engine = create_engine('sqlite:///restaurantmenuauth.db')
+engine = create_engine('postgresql://grader:12345@localhost:5432/catalogdb')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -49,7 +57,7 @@ def gconnect():
 
     try:
         # Upgrade the authorization code into a credentials object
-        oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
+        oauth_flow = flow_from_clientsecrets(full_path_to_secrets_file, scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:

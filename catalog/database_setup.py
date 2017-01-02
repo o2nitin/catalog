@@ -58,8 +58,5 @@ class Item(Base):
             'img_url': self.img_url,
         }
 
-
-engine = create_engine('sqlite:///restaurantmenuauth.db')
-
-
+engine = create_engine('postgresql://grader:12345@localhost:5432/catalogdb')
 Base.metadata.create_all(engine)
